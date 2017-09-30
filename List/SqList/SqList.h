@@ -10,9 +10,9 @@
 #define INFEASIBLE -1
 #define OVERFLOW -2
 
-typedef char ElemType  
-typedef int Status 
-typedef int BOOL
+typedef char ElemType;
+typedef int Status;
+typedef int BOOL;
 
 typedef struct{
  ElemType *elem; //存储空间地址
@@ -21,15 +21,15 @@ typedef struct{
 }SqList;
 
 BOOL max(ElemType* e1,ElemType *e2){
-  return *e1>*e2:TRUE,FALSE;
+  return *e1>*e2?TRUE:FALSE;
 }
 
 BOOL min(ElemType *e1,ElemType *e2){
-  return *e1<*e2:TRUE,FALSE;
+  return *e1<*e2?TRUE:FALSE;
 }
 
 BOOL equal(ElemType *e1,ElemType *e2){
-  return *e1==*e2:TRUE,FALSE;
+  return *e1==*e2?TRUE:FALSE;
 }
 
 void visit(ElemType e){
@@ -59,7 +59,7 @@ Status DestroyList_Sq(SqList *L){   //线性表已存在，销毁线性表L
 
 Status ClearList_Sq(SqList *L){ //线性表已存在，线性表清空
   if(!(*L).elem){
-    printf("can't clear sqlist,it's unexist");
+    printf("can't clear sqlist,it's unexist\n");
     return ERROR;
   }
 
@@ -87,7 +87,7 @@ int ListLength_Sq(SqList *L){ //返回线性表中元素个数
    return (*L).length;
 }
 
-BOOL GetElem_Sq(SqList *L,int i,Elemtype * e){ //用e返回L中第i个数据元素的值 
+BOOL GetElem_Sq(SqList *L,int i,ElemType * e){ //用e返回L中第i个数据元素的值 
    if(!(*L).elem){
      printf("the sqlist is unexist\n");
      return FALSE;
@@ -101,14 +101,14 @@ BOOL GetElem_Sq(SqList *L,int i,Elemtype * e){ //用e返回L中第i个数据元�
    *e=(*L).elem[i-1];
 }
 
-int LocateElem_Sq(SqList *L,Elemtype e,ElemType (*compare)(ElemType*,ElemType*)){ //线性表已经存在，compare()找出L中第一个与e满足关系compare()的数据元素的位序，若这样的元素不存在，则返回0
+int LocateElem_Sq(SqList *L,ElemType e,BOOL (*compare)(ElemType*,ElemType*)){ //线性表已经存在，compare()找出L中第一个与e满足关系compare()的数据元素的位序，若这样的元素不存在，则返回0
    if(!(*L).elem){
      printf("the sqlist is unexist\n");
      return 0;
    }
 
    for(int i=0;i<(*L).length;i++){
-     if(*compare(&e,&(*L).elem[i]))
+     if((*compare)(&e,&(*L).elem[i]))
 	return i+1;
    }
 
@@ -144,10 +144,10 @@ ElemType NextElem_Sq(SqList *L,ElemType cur_e,ElemType *next_e){ //若cur_e是L�
      return 0;
    }
    
-   int i,j;
+   int i;
    for(i=1;i<(*L).length;i++){
      if((*L).elem[i]==cur_e&&i<(*L).length-1){
-         *next_e=(*L).elem[j];
+         *next_e=(*L).elem[i+1];
          return OK;
      }
    }
@@ -156,18 +156,18 @@ ElemType NextElem_Sq(SqList *L,ElemType cur_e,ElemType *next_e){ //若cur_e是L�
 }
 
 Status ListInsert_Sq(SqList *L,int i,ElemType e){  //在L中第i个位置之前插入新的数据元素e，L的长度加1
-    SqList* newbase;
+    ElemType* newbase;
     if(i<1||i>(*L).length+1)  return ERROR;
     if((*L).length>=(*L).listsize){ //当前存储空间已满，增加分配
       newbase=(ElemType*)realloc((*L).elem,((*L).listsize+LISTINCREMENT)*sizeof(ElemType));
       if(!newbase)
 	 exit(OVERFLOW);
-      *L.elem=newbase;
-      *L.listsize+=LISTINCREMENT;
+      (*L).elem=newbase;
+      (*L).listsize+=LISTINCREMENT;
     }
 
-    ElemType* q=&(*L.elem[i-1]);
-    for(ElemType p=&(*L.elem[*L.length-1]);p>=q;--p)
+    ElemType* q=&((*L).elem[i-1]);
+    for(ElemType* p=&((*L).elem[(*L).length-1]);p>=q;--p)
 	*(p+1)=*p;
 
     *q=e;
@@ -176,10 +176,10 @@ Status ListInsert_Sq(SqList *L,int i,ElemType e){  //在L中第i个位置之前�
 }
 
 Status ListDelete_Sq(SqList* L,int i,ElemType* e){ //删除L的第i个数据元素，并用e返回值，L的长度减1
-   if(i<1||i>*L.length)  return ERROR;
-   ElemType *p=&(*L.elem[i-1]);
+   if(i<1||i>(*L).length)  return ERROR;
+   ElemType *p=&((*L).elem[i-1]);
    *e=*p;
-   ElemType* q=*L.elem+*L.length-1;
+   ElemType* q=(*L).elem+(*L).length-1;
    for(++p;p<=q;++p)
      *(p-1)=*p;
    --(*L).length;
@@ -187,11 +187,12 @@ Status ListDelete_Sq(SqList* L,int i,ElemType* e){ //删除L的第i个数据元�
 }
 
 Status ListTraverse_Sq(SqList* L,void (*visit)(ElemType)){ //依次对L的每个数据元素调用函数visit(),一旦visit()失败，则操作失败
-  if(*L.length<1)
+  if((*L).length<1)
     return ERROR;
-  for(int i=0;i<*L.length;i++){
-    (*visit)(*L.elem[i]);
+  for(int i=0;i<(*L).length;i++){
+    (*visit)((*L).elem[i]);
   }
+  printf("\n");
   return OK;
 }
 

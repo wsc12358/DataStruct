@@ -9,18 +9,18 @@ int main(){
    }
 
    printf("testing the func ListInsert_Sq\n");
-   for(int i=0;i<26;i++){
-     ListInsert_Sq(SL,i,test[i]);  
+   for(int i=1;i<=26;i++){
+     ListInsert_Sq(SL,i,test[i-1]);  
    }
 
    printf("testing the func ListTraverse_Sq\n");
    ListTraverse_Sq(SL,&visit);
   
    printf("testing the func ListEmpty_Sq\n");
-   printf("%d",ListEmpty_Sq(SL));
+   printf("%d\n",ListEmpty_Sq(SL));
 
    printf("testing the func ListLength_Sq\n");
-   printf("%d",ListLength_Sq(SL));
+   printf("%d\n",ListLength_Sq(SL));
 
    printf("testing the func GetElem_Sq\n");
    ElemType e;

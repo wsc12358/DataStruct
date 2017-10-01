@@ -1,8 +1,15 @@
+#ifndef _HEADERNAME_H
+#define _HEADERNAME_H 
 #include<stdio.h>
 #include<stdlib.h>
+#endif
 //-------线性表的动态分配顺序存储结构-----
 #define LIST_INIT_SIZE 100   //线性表存储空间的初始分配量
 #define LISTINCREMENT 10     //线性表存储空间的 分配增量
+
+#ifndef _STATUS_H
+#define _STATUS_H 
+
 #define TRUE 1
 #define FALSE 0
 #define OK 1
@@ -10,9 +17,14 @@
 #define INFEASIBLE -1
 #define OVERFLOW -2
 
+#endif
+
+#ifndef _TYPE_H
+#define _TYPE_H
 typedef char ElemType;
 typedef int Status;
 typedef int BOOL;
+#endif
 
 typedef struct{
  ElemType *elem; //存储空间地址
